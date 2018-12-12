@@ -31,7 +31,7 @@
     copy($_FILES['Q9']['tmp_name'],$destino);
 	$nombre=$_FILES['Q9']['name'];
 	$ubicacionArchivo= "files/".$nombre;
-	$locacion="onclick = "."location='index.html'";
+	$locacion="onclick = "."location='index.php'";
 	$locacion2="onclick = "."location='resultado_q9.php'";
 	
 /*
@@ -98,6 +98,13 @@
 		$Porcentajerated = $objPHPExcel->getActiveSheet()->getCell('AA'.$i)->getCalculatedValue();
 	
 		echo '<tr>';
+		
+		if($i==4)
+		{
+			$pais=$Choice;
+			$sqlpais = "insert into q9 (Choice) value ('$pais')";
+			$consulta=mysqli_query($conexion,$sqlpais);	
+		}
 	
 		if($i<=4){
 			echo '<td colspan=28>'. $Choice.'</td>';

@@ -19,6 +19,9 @@
 		
 		$objConexion = new conexion();
 		$conexion = $objConexion->conectar();
+
+		
+		$conexion2 = $objConexion->conectar();
 		
 		$Objq9 = new q9();
 
@@ -27,15 +30,43 @@
 		$suma3=0;
 		$suma4=0;
 		$suma5=0;
-		
+		$n1=0;
 		//$respuesta=$objresponseRate->NoGES($conexion);
-		$respuestas=$Objq9->Q9local($conexion);
+		// $respuestas=$Objq9->Q9local($conexion);
 		
+		$sql = "Select * from q9locals";
+		//$sql = "Call BuscarClientesPaisq9 ('$pais')";
+		$consulta=mysqli_query($conexion,$sql);
+		while($row=mysqli_fetch_array($consulta	)){ 
+			
+		} // validar si se puede quitar esta parte de codigo por que creo que no se esta usando
+
+		$sqlpais = "Select * from buscarpaisq9"; // se puede cambiar la vista a solo buscarpais pero con el remplace de (offline)
+		$consultapais=mysqli_query($conexion,$sqlpais);	
+		while($rowpais=mysqli_fetch_array($consultapais)){
+			$pais=$rowpais['pais'];
+			echo $pais;
+		}
+
+		$sqlresultado = "Call q9locals ('$pais')";
+				$consulta=mysqli_query($conexion,$sqlresultado);
+				while($row=mysqli_fetch_array($consulta	)){
+					$n1=$row['n1'];
+					$n2=$row['n2'];
+					$n3=$row['n3'];
+					$n4=$row['n4'];
+					$n5=$row['n5'];
+					$n6=$row['n6'];
+					$n7=$row['n7'];
+					$n8=$row['n8'];
+					$n9=$row['n9'];
+					$n10=$row['n10'];
+				}
 	?>
 	<table class="table table-hover table-sm ">
 		<tr>
 			<td colspan =12>
-				<button type="submit" class="btn btn-danger btn-sm btn-lg btn-block" onclick ="location='index.html'" >Inicio</button>	
+				<button type="submit" class="btn btn-danger btn-sm btn-lg btn-block" onclick ="location='index.php'" >Inicio</button>	
 			</td>
 			<td colspan =8>
 				<button type="button" class="btn btn-success btn-sm btn-lg btn-block"  onclick ="location='imprimirq9.php'" >  Descargar Excel</button> 
@@ -62,8 +93,10 @@
 			<td>Porcentaje	</td>
 		</tr>
 			<?php
-				$sql = "Select * from q9localclientes";
-				$consulta=mysqli_query($conexion,$sql);
+				//$sql = "Select * from q9locals";
+				$sql = "Call BuscarClientesPaisq9 ('$pais')";
+				$consulta=mysqli_query($conexion2,$sql);
+				//var_dump($consulta);
 				while($row=mysqli_fetch_array($consulta	)){
 			?>
          <tr>
@@ -96,25 +129,21 @@
 		</tr>
 		<?php
 			}
-			$sql2 = "Select * from q9local";
-			$consulta2=mysqli_query($conexion,$sql2);
-			while($row2=mysqli_fetch_array($consulta2)){ 
+
 		?>
 		<tr class="table-success">
 				<td>Total </td>
-				<td><?php echo $row2['n1'] ?></td>
-				<td><?php echo $row2['n2'] ?></td>
-				<td><?php echo $row2['n3'] ?></td>
-				<td><?php echo $row2['n4'] ?></td>
-				<td><?php echo $row2['n5'] ?></td>
-				<td><?php echo $row2['n6'] ?></td>
-				<td><?php echo $row2['n7'] ?></td>
-				<td><?php echo $row2['n8'] ?></td>
-				<td><?php echo $row2['n9'] ?></td>
-				<td><?php echo $row2['n10'] ?></td>
+				<td><?php echo $n1; ?></td>
+				<td><?php echo $n2 ?></td>
+				<td><?php echo $n3; ?></td>
+				<td><?php echo $n4; ?></td>
+				<td><?php echo $n5; ?></td>
+				<td><?php echo $n6; ?></td>
+				<td><?php echo $n7; ?></td>
+				<td><?php echo $n8; ?></td>
+				<td><?php echo $n9; ?></td>
+				<td><?php echo $n10; ?></td>
 				<td></td>
-				
-				
 				<td><?php echo $suma5?></td>
 				<td><?php echo $suma4?></td>
 				<td><?php echo $suma3?></td>
@@ -123,10 +152,14 @@
 				<td><?php echo ($suma1/$suma)*100 ?></td>
 		</tr>
 			<?php
-				}
+				
 			?>
 		</tr>
 	</table>
+		<?php
+			
+		
+		?>
 
  <br>
  		

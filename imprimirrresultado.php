@@ -5,8 +5,12 @@
 
     $objConexion = new conexion();
 	$conexion = $objConexion->conectar();
+	$conexion2 = $objConexion->conectar();
+	$conexion3 = $objConexion->conectar();
 	
     $objPHPExcel = new PHPExcel();
+    
+    //echo $pais;
 
     //q8
     $suma=0;
@@ -232,7 +236,9 @@
                 'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
             )
          );
-    $sql = "Select * from Q8local";
+
+    $pais=$_POST['pais'];
+    $sql = "Call BuscarClientesPais ('$pais')";
 
 	$consulta=mysqli_query($conexion,$sql);
 	while($row=mysqli_fetch_array($consulta	))
@@ -297,14 +303,13 @@
     $objPHPExcel->getActiveSheet()->getStyle('B'.$fila.':D'.$fila)->applyFromArray($estilo3);
 
     
-    
     // 
     // Q9 reporte
     // 
     $contador=0;
     
-    $sql = "Select * from q9localclientes";
-	$consulta=mysqli_query($conexion,$sql);
+    $sql = "Call BuscarClientesPaisq9 ('$pais')";
+	$consulta=mysqli_query($conexion2,$sql);
     while($row=mysqli_fetch_array($consulta	))
     
     //while ($row=$respuesta -> fetch_assoc())
@@ -360,9 +365,6 @@
     $objPHPExcel->getActiveSheet()->setCellValue('I'.$fila,$promedio3);
 
     $objPHPExcel->getActiveSheet()->getStyle('G'.$fila.':I'.$fila)->applyFromArray($estilo4);
-
-
-    
     
     // 
     // Q11 reporte
@@ -370,8 +372,8 @@
     
     $contador=0;
     
-    $sql = "Select * from q11localclientes";
-	$consulta=mysqli_query($conexion,$sql);
+    $sql = "Call BuscarClientesPaisq11 ('$pais')";
+	$consulta=mysqli_query($conexion3,$sql);
     while($row=mysqli_fetch_array($consulta	))
     
 
@@ -428,7 +430,8 @@
     $objPHPExcel->getActiveSheet()->setCellValue('N'.$fila,$promedio3);
     
     $objPHPExcel->getActiveSheet()->getStyle('L'.$fila.':N'.$fila)->applyFromArray($estilo5);
-    
+
+
 
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Nivel de Respuesta.xls');

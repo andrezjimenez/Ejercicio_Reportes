@@ -32,6 +32,17 @@
             return $respuesta;
         }
 
+        public function BuscarClientesPaisq9($conexion,$pais){
+            $query="Call BuscarClientesPaisq9 ('$pais')";
+            $consulta=mysqli_query($conexion,$query);
+            if($consulta){
+                $respuesta="Consulta realizada exitosamente";
+            }else{
+                $respuesta="Problemas al realizar consulta";
+            }
+            return $respuesta;
+        }
+
        /* public function NoGES($conexion){
             //$query="Call NoGES";
             $query="Select * from NoGes";

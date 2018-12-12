@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="https://getbootstrap.com/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>CRUD</title>
+    <title>ResponseRate</title>
 </head>
 <body >
     <div Class="container">
@@ -33,7 +33,7 @@
 	$ubicacionArchivo= "files/".$nombre;
 	$locacion="onclick = "."location='index.html'";
 	$locacion2="onclick = "."location='resultado_responserate.php'";
-	
+	$pais ='';
 /*
     copy($_FILES['responseRate']['tmp_name'],$_FILES['responseRate']['name']);
     $nombre=$_FILES['responseRate']['name'];

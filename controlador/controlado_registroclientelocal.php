@@ -7,7 +7,8 @@ $conexion = $objConexion->conectar();
 
 
 $objCategoria = new responserate();
- $respuesta=$objCategoria->registrarclienteges($conexion, $_POST['nombre']);
+ $respuesta=$objCategoria->registrarclienteges($conexion, $_POST['nombre'],$_POST['pais']);
+ $pais=$_POST['pais'];
 
 ?>
 <!DOCTYPE html>
@@ -29,7 +30,7 @@ $objCategoria = new responserate();
         
         <p class="lead">
             <h3 class="cover-heading"><?php echo $respuesta;?></h3><br>
-            <button type="button" class="btn btn-primary btn-sm" onclick = "location='../registroclientelocal.php'" > Volver </button>
+            <a href="../registroclientelocal.php?pais=<?php echo $pais?>"><button type="button" class="btn btn-primary btn-sm" > Volver </button></a>
         </p>
       </main>
 

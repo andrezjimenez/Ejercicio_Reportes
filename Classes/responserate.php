@@ -61,8 +61,8 @@
             }
             return $total;
         }
-        public function registrarclienteges($conexion,$nombreges){
-            $query="Insert into clientesges (Name) values ('$nombreges')";
+        public function registrarclienteges($conexion,$nombreges,$pais){
+            $query="Insert into clientesges (Name,pais) values ('$nombreges','$pais')";
             $consulta=mysqli_query($conexion,$query);
             if($consulta){
                 $total="Cliente Local Registrado Exitosamente";

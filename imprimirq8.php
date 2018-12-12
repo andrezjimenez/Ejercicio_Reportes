@@ -7,6 +7,8 @@
 	$conexion = $objConexion->conectar();
 	
     $objPHPExcel = new PHPExcel();
+    
+    $objPHPExcel2 = new PHPExcel();
 
     $suma=0;
     $suma1=0;
@@ -15,9 +17,18 @@
     $suma5=0;
     $fila=2;
 
+    $sqlpais = "Select * from buscarpais";
+	$consultapais=mysqli_query($conexion,$sqlpais);	
+	while($rowpais=mysqli_fetch_array($consultapais	)){
+			$pais=$rowpais['pais'];
+		//	echo $pais;
+		}
+
+
+
     $objPHPExcel->getProperties()
-        ->setCreator('Reportes')
-        ->setTitle ('Q8_result')
+        ->setCreator('Jenny Celis')
+        ->setTitle ('Q8_result'.$pais)
         ->SetDescription('Reporte');
 
     $objPHPExcel->setActiveSheetIndex(0);
@@ -42,7 +53,8 @@
     $objPHPExcel->getActiveSheet()->setCellValue('Q1','SCORE 1 A 10	');
     $objPHPExcel->getActiveSheet()->setCellValue('R1','Porcentaje');
 
-    $sql = "Select * from Q8local";
+    //$sql = "Select * from Q8local";
+    $sql = "Call BuscarClientesPais ('$pais')";
 	$consulta=mysqli_query($conexion,$sql);
 	while($row=mysqli_fetch_array($consulta	))
     
@@ -104,8 +116,19 @@
     $objPHPExcel->getActiveSheet()->setCellValue('Q'.$fila,$suma);
     $objPHPExcel->getActiveSheet()->setCellValue('R'.$fila,$promerdio);
 
+    //$objPHPExcel->createSheet();
+    //Creacion de segunda hoja la cual contiene la informacion de los clientes del GSC
+    $myWorkSheet = new PHPExcel_Worksheet($objPHPExcel, 'GSC');
+    //Se agrega al liblo la segunda hoja
+    $objPHPExcel->addSheet($myWorkSheet, 2);
+    //desde aqui en adelante se empiza a editar la informacion que va a contener
+    $objPHPExcel->setActiveSheetIndex(1);
+    $objPHPExcel->getActiveSheet()->setCellValue('A1','En desarrollo la segunda hoja de los reportes');
+
+
+
     header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="Q8_result.xls');
+    header('Content-Disposition: attachment;filename="Q8_result'.$pais.'.xls');
     header('Cache-Control: max-age=0');
     
     $objWriter=PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');

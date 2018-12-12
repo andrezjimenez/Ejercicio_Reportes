@@ -31,9 +31,9 @@
     copy($_FILES['Q8']['tmp_name'],$destino);
 	$nombre=$_FILES['Q8']['name'];
 	$ubicacionArchivo= "files/".$nombre;
-	$locacion="onclick = "."location='index.html'";
+	$locacion="onclick = "."location='index.php'";
 	$locacion2="onclick = "."location='resultado_q8.php'";
-	
+	$pais ='';
 /*
     copy($_FILES['responseRate']['tmp_name'],$_FILES['responseRate']['name']);
     $nombre=$_FILES['responseRate']['name'];
@@ -98,6 +98,13 @@
 		$Porcentajerated = $objPHPExcel->getActiveSheet()->getCell('AA'.$i)->getCalculatedValue();
 	
 		echo '<tr>';
+		
+		if($i==4)
+		{
+			$pais=$Choice;
+			$sqlpais = "insert into q8 (Choice) value ('$pais')";
+			$consulta=mysqli_query($conexion,$sqlpais);	
+		}
 	
 		if($i<=4){
 			echo '<td colspan=28>'. $Choice.'</td>';
@@ -184,7 +191,8 @@
     }
 	$sql2 = "delete from q8 where Choice in ('CITI','HEWLETT PACKARD ENTERPRISE PARENT CMC','ACCENTURE CONSOLIDATED','HP INC PARENT CMC','General Electric')";
 	$consulta=mysqli_query($conexion,$sql2);	
-	echo '<table>';
+	echo '<table> <br>';
+	//echo $pais;
 
 ?>
 

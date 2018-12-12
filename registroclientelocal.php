@@ -7,6 +7,8 @@
     $conexion = $objConexion->conectar();
     
     $contador=0;
+    $pais=$_GET["pais"];
+   // echo $pais;
 	
 ?>
 
@@ -35,7 +37,7 @@
                         <td>Eliminar</td>
                     </tr>
                     <?php
-                        $sql = "Select * from clientesges";
+                        $sql = "Select * from clientesges where pais='$pais'";
                         $respuestas=mysqli_query($conexion,$sql);
                         while($row=mysqli_fetch_array($respuestas)){
                         $contador++;
@@ -52,8 +54,9 @@
                 </table>
             </div>
             <div class="col-sm text-left" >
-            <br><h3>Registro de Cliente</h3><br><br>
+            <br><h3>Registro de Cliente</h3><br>
                 <form action="controlador/controlado_registroclientelocal.php" method="post">
+                    <input type="text" name="pais" value="<?php echo $pais;?>"  class="form-control" readonly style="visibility:hidden" >
                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre del cliente" name="nombre" required>
                     <small id="emailHelp" class="form-text text-muted">El nombre del cliente que va a registrar debe ser exacto al que se carga en el Excel Sin espacios en blanco.</small>
                     <br>

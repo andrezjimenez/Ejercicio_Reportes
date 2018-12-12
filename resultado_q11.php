@@ -14,13 +14,17 @@
     <div Class="container">
 	<?php
 		include "Classes/conexion.php";
-		include "Classes/q8.php";
+		include "Classes/q11.php";
 		require 'Classes/PHPExcel/IOFactory.php';
 		
 		$objConexion = new conexion();
-		$conexion = $objConexion->conectar();
 		
-		$Objq8 = new q8();
+		$objConexion2 = new conexion();
+		
+		$conexion = $objConexion->conectar();
+		$conexion2 = $objConexion2->conectar();
+		
+		$Objq11 = new q11();
 
 		$suma=0;
 		$suma1=0;
@@ -29,13 +33,35 @@
 		$suma5=0;
 		
 		//$respuesta=$objresponseRate->NoGES($conexion);
-		$respuestas=$Objq8->Q8local($conexion);
-		
+		//$respuestas=$Objq8->Q8local($conexion);
+		$sqlpais = "Select * from buscarpaisq11"; // se puede cambiar la vista a solo buscarpais pero con el remplace de (offline)
+		$consultapais=mysqli_query($conexion,$sqlpais);	
+		while($rowpais=mysqli_fetch_array($consultapais)){
+			$pais=$rowpais['pais'];
+			echo $pais;
+		}
+
+		// este bloque de instrucciones trarla suma de las columnas desde sQL
+		$sqlresultado = "Call q11locals ('$pais')";
+				$consulta=mysqli_query($conexion2,$sqlresultado);
+				while($row=mysqli_fetch_array($consulta	)){
+					$n1=$row['n1'];
+					$n2=$row['n2'];
+					$n3=$row['n3'];
+					$n4=$row['n4'];
+					$n5=$row['n5'];
+					$n6=$row['n6'];
+					$n7=$row['n7'];
+					$n8=$row['n8'];
+					$n9=$row['n9'];
+					$n10=$row['n10'];
+				}
+		// este bloque de instrucciones trarla suma de las columnas desde sQL
 	?>
 	<table class="table table-hover table-sm ">
 		<tr>
 			<td colspan =12>
-				<button type="submit" class="btn btn-danger btn-sm btn-lg btn-block" onclick ="location='index.html'" >Inicio</button>	
+				<button type="submit" class="btn btn-danger btn-sm btn-lg btn-block" onclick ="location='index.php'" >Inicio</button>	
 			</td>
 			<td colspan =8>
 				<button type="button" class="btn btn-success btn-sm btn-lg btn-block"  onclick ="location='imprimirq11.php'" >  Descargar Excel</button> 
@@ -62,7 +88,8 @@
 			<td>Porcentaje	</td>
 		</tr>
 			<?php
-				$sql = "Select * from Q8local";
+				//$sql = "Select * from Q8local";
+				$sql = "Call BuscarClientesPaisq11 ('$pais')";
 				$consulta=mysqli_query($conexion,$sql);
 				while($row=mysqli_fetch_array($consulta	)){
 			?>
@@ -99,21 +126,21 @@
 		?>
 		<tr class="table-success">
 				<td>Total </td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td><?php echo $n1; ?></td>
+				<td><?php echo $n2; ?></td>
+				<td><?php echo $n3; ?></td>
+				<td><?php echo $n4; ?></td>
+				<td><?php echo $n5; ?></td>
+				<td><?php echo $n6; ?></td>
+				<td><?php echo $n7; ?></td>
+				<td><?php echo $n8; ?></td>
+				<td><?php echo $n9; ?></td>
+				<td><?php echo $n10; ?></td>
 				<td></td>
 				
-				<td><?php echo $suma5?></td>
-				<td><?php echo $suma4?></td>
 				<td><?php echo $suma3?></td>
+				<td><?php echo $suma4?></td>
+				<td><?php echo $suma5?></td>
 				<td><?php echo $suma1?></td>
 				<td><?php echo $suma?></td>
 				<td><?php echo ($suma1/$suma)*100 ?></td>

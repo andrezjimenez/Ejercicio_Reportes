@@ -5,6 +5,7 @@
 
     $objConexion = new conexion();
 	$conexion = $objConexion->conectar();
+	$conexion2 = $objConexion->conectar();
 	
     $objPHPExcel = new PHPExcel();
 
@@ -14,10 +15,57 @@
     $suma4=0;
     $suma5=0;
     $fila=2;
+    
+    /*
+	$sql = "Select * from q9locals";
+		//$sql = "Call BuscarClientesPaisq9 ('$pais')";
+		$consulta=mysqli_query($conexion,$sql);
+		while($row2=mysqli_fetch_array($consulta	)){ 
+			$n1=$row2['n1'];
+			$n2=$row2['n2'];
+			$n3=$row2['n3'];
+			$n4=$row2['n4'];
+			$n5=$row2['n5'];
+			$n6=$row2['n6'];
+			$n7=$row2['n7'];
+			$n8=$row2['n8'];
+			$n9=$row2['n9'];
+            $n10=$row2['n10'];
+            $suma16=$row2['n1']+ $row2['n2']+ $row2['n3']+ $row2['n4']+ $row2['n5']+ $row2['n6'];
+            $suma910=$row2['n9']+ $row2['n10'];
+		}
+
+*/
+    
+    $sqlpais = "Select * from buscarpaisq9";
+	$consultapais=mysqli_query($conexion,$sqlpais);	
+	while($rowpais=mysqli_fetch_array($consultapais	)){
+			$pais=$rowpais['pais'];
+		//	echo $pais;
+        }
+
+        $sqlresultado = "Call q9locals ('$pais')";
+        $consulta=mysqli_query($conexion2,$sqlresultado);
+        while($row2=mysqli_fetch_array($consulta	)){
+            $n1=$row2['n1'];
+            $n2=$row2['n2'];
+            $n3=$row2['n3'];
+            $n4=$row2['n4'];
+            $n5=$row2['n5'];
+            $n6=$row2['n6'];
+            $n7=$row2['n7'];
+            $n8=$row2['n8'];
+            $n9=$row2['n9'];
+            $n10=$row2['n10'];
+            $suma16=$row2['n1']+ $row2['n2']+ $row2['n3']+ $row2['n4']+ $row2['n5']+ $row2['n6'];
+            $suma910=$row2['n9']+ $row2['n10'];
+        }
+
+        
 
     $objPHPExcel->getProperties()
         ->setCreator('Reportes')
-        ->setTitle ('Q8_result')
+        ->setTitle ('Q9_result'.$pais)
         ->SetDescription('Reporte');
 
     $objPHPExcel->setActiveSheetIndex(0);
@@ -41,8 +89,9 @@
     $objPHPExcel->getActiveSheet()->setCellValue('P1','SCORE 8,9,10');
     $objPHPExcel->getActiveSheet()->setCellValue('Q1','SCORE 1 A 10	');
     $objPHPExcel->getActiveSheet()->setCellValue('R1','Porcentaje');
-
-    $sql = "Select * from q9localclientes";
+ 
+    //$sql = "Select * from q9localclientes";
+    $sql = "Call BuscarClientesPaisq9 ('$pais')";
 	$consulta=mysqli_query($conexion,$sql);
 	while($row=mysqli_fetch_array($consulta	))
     
@@ -85,21 +134,21 @@
     
     $promerdio=($suma1/$suma)*100;
 
-    $sql2 = "Select * from Q9local";
-	$consulta2=mysqli_query($conexion,$sql2);
-	while($row2=mysqli_fetch_array($consulta2	)){
+//    $sql2 = "Select * from Q9locals";
+//	$consulta2=mysqli_query($conexion,$sql2);
+//	while($row2=mysqli_fetch_array($consulta2	)){
 
     $objPHPExcel->getActiveSheet()->setCellValue('A'.$fila,'Total');       
-    $objPHPExcel->getActiveSheet()->setCellValue('B'.$fila,$row2['n1']);
-    $objPHPExcel->getActiveSheet()->setCellValue('C'.$fila,$row2['n2']);
-    $objPHPExcel->getActiveSheet()->setCellValue('D'.$fila,$row2['n3']);
-    $objPHPExcel->getActiveSheet()->setCellValue('E'.$fila,$row2['n4']);
-    $objPHPExcel->getActiveSheet()->setCellValue('F'.$fila,$row2['n5']);
-    $objPHPExcel->getActiveSheet()->setCellValue('G'.$fila,$row2['n6']);
-    $objPHPExcel->getActiveSheet()->setCellValue('H'.$fila,$row2['n7']);
-    $objPHPExcel->getActiveSheet()->setCellValue('I'.$fila,$row2['n8']);
-    $objPHPExcel->getActiveSheet()->setCellValue('J'.$fila,$row2['n9']);
-    $objPHPExcel->getActiveSheet()->setCellValue('K'.$fila,$row2['n10']);
+    $objPHPExcel->getActiveSheet()->setCellValue('B'.$fila,$n1);
+    $objPHPExcel->getActiveSheet()->setCellValue('C'.$fila,$n2);
+    $objPHPExcel->getActiveSheet()->setCellValue('D'.$fila,$n3);
+    $objPHPExcel->getActiveSheet()->setCellValue('E'.$fila,$n4);
+    $objPHPExcel->getActiveSheet()->setCellValue('F'.$fila,$n5);
+    $objPHPExcel->getActiveSheet()->setCellValue('G'.$fila,$n6);
+    $objPHPExcel->getActiveSheet()->setCellValue('H'.$fila,$n7);
+    $objPHPExcel->getActiveSheet()->setCellValue('I'.$fila,$n8);
+    $objPHPExcel->getActiveSheet()->setCellValue('J'.$fila,$n9);
+    $objPHPExcel->getActiveSheet()->setCellValue('K'.$fila,$n10);
     $objPHPExcel->getActiveSheet()->setCellValue('L'.$fila);
 
     $objPHPExcel->getActiveSheet()->setCellValue('N'.$fila);
@@ -107,9 +156,8 @@
     $objPHPExcel->getActiveSheet()->setCellValue('P'.$fila,$suma1);
     $objPHPExcel->getActiveSheet()->setCellValue('Q'.$fila,$suma);
     $objPHPExcel->getActiveSheet()->setCellValue('R'.$fila,$promerdio);
-    $suma16=$row2['n1']+ $row2['n2']+ $row2['n3']+ $row2['n4']+ $row2['n5']+ $row2['n6'];
-    $suma910=$row2['n9']+ $row2['n10'];
-    }
+   
+ //   }
     $fila++;
     $resultado6=($suma910/$suma)*100;
     $resultado7=($suma16/$suma)*100;
@@ -136,7 +184,7 @@
     
 
     header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="Q9_result.xls');
+    header('Content-Disposition: attachment;filename="Q9_result_'.$pais.'.xls');
     header('Cache-Control: max-age=0');
     
     $objWriter=PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
